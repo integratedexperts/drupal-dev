@@ -301,6 +301,42 @@ jobs:
           paths:
             - code
 
+  dependencies:
+    <<: *container_config
+    steps:
+    - attach_workspace:
+        at: /workspace
+    - checkout
+    - *step_setup_remote_docker
+    - run:
+        name: Validate Composer configuration
+        command: composer validate --ansi --strict
+    - restore_cache:
+        keys:
+        - v1-db8-
+    - run:
+        name: Check DB availability
+        command: if [ ! -f .data/db.sql ] ; then echo "Unable to find DB"; exit 1; fi
+    - run:
+        name: Pull newest Docker images
+        command: ahoy pull
+    - run:
+        name: Start containers
+        command: |
+          sed -i -e "/###/d" docker-compose.yml
+          docker network prune -f && docker network inspect amazeeio-network >/dev/null || docker network create amazeeio-network
+          ahoy up -- --build
+    - run:
+        name: Install dev dependencies
+        command: |
+          docker cp -L behat.yml $(docker-compose ps -q cli):/app/
+          docker cp -L phpcs.xml $(docker-compose ps -q cli):/app/
+          docker cp -L tests $(docker-compose ps -q cli):/app/
+          ahoy install-dev
+    - run:
+        name: Update dependencies
+        command: . .circleci/update-dependencies.sh
+
   # Deploy primary branches.
   # [META]
   # Specify, $SHOULD_DEPLOY, $DEPLOY_REMOTE, $DEPLOY_USER_EMAIL, and
@@ -399,69 +435,82 @@ jobs:
   # [/META]
 workflows:
   version: 2
-  main:
+#  main:
+#    jobs:
+#      - database:
+#          filters:
+#            tags:
+#              only: /.*/
+#      - build:
+#          requires:
+#            - database
+#          filters:
+#            tags:
+#              only: /.*/
+#      - deploy:
+#          requires:
+#            - build
+#          filters:
+#            branches:
+#              # Allowed branches:
+#              # - master, develop, ci, cisomething
+#              # - release/123, release/123.456, release/123.456.789, release/123.456.789-rc123
+#              # - hotfix/123, hotfix/123.456, hotfix/123.456.789
+#              # - feature/description, feature/123-description, but not feature/8.x-description or feature/7.x-description
+#              only: /master|develop|ci.*|(release\/)?[0-9]+(\.[0-9]+)+(-rc[0-9]+)?|(hotfix\/)?[0-9]+(\.[0-9]+)+(-rc[0-9]+)?|feature\/(?!7.x-|8.x-)[a-zA-z0-9\-\.\,]+/
+#            tags:
+#              ignore: /.*/
+#      - deploy_tags:
+#          requires:
+#            - build
+#          filters:
+#            branches:
+#              ignore: /.*/
+#            tags:
+#              # Allowed tags: 1, 123, 123.456, 123.456.789, 123.456.789-rc123
+#              only: /^[0-9]+(\.[0-9]+)+(-rc[0-9]+)$/
+#      # [META]
+#      # Feature and tag deployment for Drupal-Dev itself. Remove the code below in your project.
+#      - test_drupal_dev:
+#          filters:
+#            tags:
+#              only: /.*/
+#      - test_drupal_dev_artefact:
+#          requires:
+#            - build
+#          filters:
+#            tags:
+#              only: /.*/
+#      - deploy_drupal_dev:
+#          requires:
+#            - build
+#            - test_drupal_dev
+#          filters:
+#            branches:
+#              # Allowed branches: 7.x, 8.x, feature/7.x-description, feature/8.x-description
+#              only: /(?:7|8)\.x|feature\/(?:7|8)\.x[a-zA-z0-9\-\.\,]+/
+#            tags:
+#              ignore: /.*/
+#      - deploy_drupal_dev_tags:
+#          requires:
+#            - build
+#            - test_drupal_dev
+#          filters:
+#            branches:
+#              ignore: /.*/
+#            tags:
+#              only: /^(?:7|8)\.x\-[0-9]+\.[0-9]+(?:[A-z0-9\-])*$/
+#      # [/META]
+  nightly:
+    #    triggers:
+    #      - schedule:
+    #          cron: "0 0 * * *"
+    #          filters:
+    #            branches:
+    #              only:
+    #              - develop
     jobs:
-      - database:
-          filters:
-            tags:
-              only: /.*/
-      - build:
-          requires:
-            - database
-          filters:
-            tags:
-              only: /.*/
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              # Allowed branches:
-              # - master, develop, ci, cisomething
-              # - release/123, release/123.456, release/123.456.789, release/123.456.789-rc123
-              # - hotfix/123, hotfix/123.456, hotfix/123.456.789
-              # - feature/description, feature/123-description, but not feature/8.x-description or feature/7.x-description
-              only: /master|develop|ci.*|(release\/)?[0-9]+(\.[0-9]+)+(-rc[0-9]+)?|(hotfix\/)?[0-9]+(\.[0-9]+)+(-rc[0-9]+)?|feature\/(?!7.x-|8.x-)[a-zA-z0-9\-\.\,]+/
-            tags:
-              ignore: /.*/
-      - deploy_tags:
-          requires:
-            - build
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              # Allowed tags: 1, 123, 123.456, 123.456.789, 123.456.789-rc123
-              only: /^[0-9]+(\.[0-9]+)+(-rc[0-9]+)$/
-      # [META]
-      # Feature and tag deployment for Drupal-Dev itself. Remove the code below in your project.
-      - test_drupal_dev:
-          filters:
-            tags:
-              only: /.*/
-      - test_drupal_dev_artefact:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /.*/
-      - deploy_drupal_dev:
-          requires:
-            - build
-            - test_drupal_dev
-          filters:
-            branches:
-              # Allowed branches: 7.x, 8.x, feature/7.x-description, feature/8.x-description
-              only: /(?:7|8)\.x|feature\/(?:7|8)\.x[a-zA-z0-9\-\.\,]+/
-            tags:
-              ignore: /.*/
-      - deploy_drupal_dev_tags:
-          requires:
-            - build
-            - test_drupal_dev
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(?:7|8)\.x\-[0-9]+\.[0-9]+(?:[A-z0-9\-])*$/
-      # [/META]
+    - database
+    - dependencies:
+        requires:
+        - database
