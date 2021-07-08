@@ -1,8 +1,8 @@
 name: your_site_theme
 type: theme
 description: 'YOURSITE theme.'
-version: 8.x-1.0
-core: 8.x
+version: 9.x-1.0.0
+core_version_requirement: ^9
 base theme: classy
 
 libraries:

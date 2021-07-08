@@ -1,20 +1,21 @@
 {
     "name": "your_org/your_site",
-    "description": "Drupal 8 implementation of YOURSITE for YOURORG",
+    "description": "Drupal 9 implementation of YOURSITE for YOURORG",
     "license": "proprietary",
     "require": {
         "php": ">=7.4",
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
-        "drupal/admin_toolbar": "^1.27",
+        "drupal/admin_toolbar": "^3.0",
         "drupal/coffee": "^1",
         "drupal/config_ignore": "^2.2",
         "drupal/config_split": "^1.7",
         "drupal/config_update": "^1.7",
         "drupal/console": "^1.9",
-        "drupal/core-composer-scaffold": "^8",
-        "drupal/core-recommended": "^8",
-        "drupal/environment_indicator": "^3.7",
+        "drupal/core-composer-scaffold": "^9.2",
+        "drupal/core-project-message": "^9.2",
+        "drupal/core-recommended": "^9.2",
+        "drupal/environment_indicator": "^4.0",
         "drupal/pathauto": "^1.8",
         "drupal/permissions_filter": "^1.1",
         "drupal/redirect": "^1.6",
@@ -28,15 +29,16 @@
         "zaporylie/composer-drupal-optimizations": "^1.2"
     },
     "require-dev": {
-        "drupal/core-dev": "^8.9",
-        "behat/behat": "^3.7",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.4",
-        "drupal/drupal-extension": "^3.4",
+        "behat/behat": "^3.8",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "drupal/core-dev": "^9.2",
+        "drupal/drupal-extension": "^4.1",
         "integratedexperts/behat-format-progress-fail": "^0.2",
         "integratedexperts/behat-screenshot": "^0.7",
-        "integratedexperts/behat-steps": "^0.1",
+        "integratedexperts/behat-steps": "^0.2.2",
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "phpcompatibility/php-compatibility": "^9.0",
+        "phpspec/prophecy-phpunit": "^2",
         "pyrech/composer-changelogs": "^1.7"
     },
     "autoload": {
@@ -46,7 +48,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         },
         "process-timeout": 0,
         "sort-packages": true

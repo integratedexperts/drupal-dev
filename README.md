@@ -20,7 +20,7 @@
 ### Installation
 1. Run installer:
    ```
-   curl -L https://raw.githubusercontent.com/drevops/drevops/8.x/install.php > /tmp/install.php && php /tmp/install.php --interactive; rm /tmp/install.php
+   curl -L https://raw.githubusercontent.com/richardgaunt/drevops/9.x/install.php > /tmp/install.php && php /tmp/install.php --interactive; rm /tmp/install.php
    ```
 2. Commit added files.
 
@@ -247,7 +247,7 @@ Contact us at [support@integratedexperts.com](mailto:support@integratedexperts.c
 
 [//]: # (#;> DREVOPS)
 # YOURSITE
-Drupal 8 implementation of YOURSITE for YOURORG
+Drupal 9 implementation of YOURSITE for YOURORG
 
 [![CircleCI](https://circleci.com/gh/your_org/your_site.svg?style=shield)](https://circleci.com/gh/your_org/your_site)
 ![Drupal 8](https://img.shields.io/badge/Drupal-8-blue.svg)

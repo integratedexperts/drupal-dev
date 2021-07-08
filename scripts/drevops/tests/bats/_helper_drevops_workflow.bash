@@ -7,7 +7,7 @@
 prepare_sut() {
   step "Run SUT preparation"
 
-  DRUPAL_VERSION=${DRUPAL_VERSION:-8}
+  DRUPAL_VERSION=${DRUPAL_VERSION:-9}
   VOLUMES_MOUNTED=${VOLUMES_MOUNTED:-1}
 
   assert_not_empty "${DRUPAL_VERSION}"

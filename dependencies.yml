@@ -14,7 +14,7 @@ dependencies:
         # Install platform requirements required for Drupal. Some of them are
         # already installed into base image.
         - "apk add --no-cache libpng-dev libjpeg-turbo-dev gettext-dev"
-        # Required by Drupal 8 core.
+        # Required by Drupal 9 core.
         - "docker-php-ext-install -j4 gd"
         - "docker-php-ext-install -j4 pdo_mysql"
         # Required by some modules and distributions.

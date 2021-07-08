@@ -27,7 +27,7 @@
 /**
  * Defines Drupal version supported by this installer.
  */
-define('INSTALLER_DRUPAL_VERSION', 8);
+define('INSTALLER_DRUPAL_VERSION', 9);
 
 /**
  * Defines current working directory.
@@ -559,7 +559,7 @@ function download_local() {
 
 function download_remote() {
   $dst = get_config('DREVOPS_TMP_DIR');
-  $org = 'drevops';
+  $org = 'richardgaunt';
   $project = 'drevops';
   $ref = get_config('DREVOPS_COMMIT');
   $release_prefix = get_config('DREVOPS_VERSION');

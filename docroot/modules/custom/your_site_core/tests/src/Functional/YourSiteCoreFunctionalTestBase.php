@@ -11,5 +11,10 @@ use Drupal\Tests\your_site_core\Traits\YourSiteCoreTestHelperTrait;
 abstract class YourSiteCoreFunctionalTestBase extends BrowserTestBase {
 
   use YourSiteCoreTestHelperTrait;
+  
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stable';
 
 }

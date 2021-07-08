@@ -4,7 +4,7 @@ FROM ${CLI_IMAGE} as cli
 
 # @see https://hub.docker.com/r/amazeeio/solr/tags?page=1&name=drupal
 # @see https://github.com/uselagoon/lagoon-images/tree/main/images/solr-drupal
-FROM amazeeio/solr:6.6-drupal-20.10.0
+FROM amazeeio/solr:6.6-drupal-21.6.0
 
 # Uncomment below after installing search_api_solr Drupal module (it must exist
 # in the codebase).

@@ -4,7 +4,7 @@
 #
 # @see https://hub.docker.com/r/amazeeio/php/tags?page=1&name=cli-drupal
 # @see https://github.com/uselagoon/lagoon-images/tree/main/images/php/cli-drupal
-FROM amazeeio/php:7.4-cli-drupal-20.10.0
+FROM amazeeio/php:8.0-cli-drupal-21.6.0
 
 # Set default values for environment variables. Any values provided in
 # docker-compose.yml or .env file will override these values during build stage.
@@ -28,6 +28,9 @@ ENV WEBROOT=docroot \
 # Adding more tools.
 RUN apk update \
     && apk add pv \
+               python2 \
+               make \
+               g++ \
     && rm -rf /var/cache/apk/*
 
 # Adding patches and scripts.

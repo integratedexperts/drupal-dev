@@ -31,7 +31,7 @@ load "${BASH_SOURCE[0]%/*}"/_mock.bash
 #
 # $APP_TMP_DIR - directory where the application may store it's temporary files.
 setup() {
-  export DRUPAL_VERSION="${DRUPAL_VERSION:-8}"
+  export DRUPAL_VERSION="${DRUPAL_VERSION:-9}"
   export CUR_DIR="$(pwd)"
   export BUILD_DIR="${BUILD_DIR:-"${BATS_TEST_TMPDIR}/drevops-$(random_string)"}"
 
@@ -591,7 +591,7 @@ fixture_readme() {
 
   cat <<EOT >>"${dir}"/README.md
 # ${name}
-Drupal 8 implementation of ${name} for ${org}
+Drupal 9 implementation of ${name} for ${org}
 
 [![CircleCI](https://circleci.com/gh/your_org/your_site.svg?style=shield)](https://circleci.com/gh/your_org/your_site)
 
@@ -613,7 +613,7 @@ fixture_composerjson() {
   cat <<EOT >>"${dir}"/composer.json
 {
     "name": "${org_machine_name}/${machine_name}",
-    "description": "Drupal 8 implementation of ${name} for ${org}"
+    "description": "Drupal 9 implementation of ${name} for ${org}"
 }
 EOT
 }
