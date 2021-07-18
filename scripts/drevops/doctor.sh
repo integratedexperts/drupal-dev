@@ -16,6 +16,7 @@ if [ "${DOCTOR_CHECK_MINIMAL}" == "1" ]; then
   DOCTOR_CHECK_BOOTSTRAP=0
 fi
 
+
 # Shortcut to set variables, but still allow to override.
 DOCTOR_CHECK_PREFLIGHT="${DOCTOR_CHECK_PREFLIGHT:-0}"
 if [ "${DOCTOR_CHECK_PREFLIGHT}" == "1" ]; then
@@ -60,7 +61,7 @@ main() {
     success "All required tools are present."
   fi
 
-  if [ "${DOCTOR_CHECK_PORT}" == "1" ]; then
+  if [ "${DOCTOR_CHECK_PORT}" == "1" ] && [ "${OSTYPE}" != "linux-gnu" ]; then
     if ! lsof -i :80 | grep LISTEN | grep -q om.docke; then
       error "Port 80 is occupied by a service other than Docker. Stop this service and run 'pygmy up'."
     fi
